@@ -1,0 +1,50 @@
+<%- include('../includes/head.ejs') %> 
+    <link rel="stylesheet" href="/css/forms.css">
+    <link rel="stylesheet" href="/css/product.css">
+</head>
+<body>
+    <%- include('../includes/navigation.ejs') %> 
+    <main>        
+        <% if(mode === "edit"){ %>
+            <form class="product-form" action="/admin/edit-product/<%= product._id %>" method="POST" enctype="multipart/form-data">
+        <% }else { %>
+            <form class="product-form" action="/admin/add-product" method="POST" enctype="multipart/form-data">
+        <% } %>
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <div class="form-control">
+                <label for="title">Title</label>
+                <input type="text" name="title" id="title" value="<%= product.title %>">
+                <label class="error-msg" ><%= error.errorTitle %></label>
+            </div>
+            <div class="form-control">
+                    <label for="image">Image</label>
+                    <input type="file" name="image" id="image" > 
+                    <label class="error-msg" ><%= error.errorImage %></label> 
+                    <% if(mode === "edit"){ %>
+                        <input type="hidden" name="imagePath" value="<%= product.image %>">
+                    <% } %>              
+                </div>
+            <div class="form-control">
+                <label for="price">Price</label>
+                <input type="number" name="price" id="price" step="0.01" value="<%= product.price %>">
+                <label class="error-msg" ><%= error.errorPrice %></label>
+            </div>
+            <div class="form-control">
+                    <label for="Qty Available">Qty</label>
+                    <input type="number" name="qty" id="qty" step="0" value="<%= product.qty %>">
+                    <label class="error-msg" ><%= error.errorQty %></label>
+                </div>
+            <div class="form-control">
+                <label for="title">Description</label>
+                <textarea name="description" id="description" rows="5"><%= product.description %></textarea>
+            </div>
+            <% if(mode === "edit"){ %>                
+                <button class="btn" type="submit">Update Product</button>
+            <% }else { %>                
+                <button class="btn" type="submit">Add Product</button>
+            <% } %>            
+        </form>        
+    </main>
+
+
+<%- include('../includes/end.ejs') %> 

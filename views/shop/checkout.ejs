@@ -1,0 +1,57 @@
+<%- include('../includes/head.ejs') %>
+
+<link rel="stylesheet" href="/css/checkout.css">
+</head>
+<body>
+    <%- include('../includes/navigation.ejs') %> 
+
+    <main>
+        <h1 class="checkoutHeadder">Checkout</h1>
+        <h1 class="checkoutHeadder">!!! IMPORTANT - PLEASE BEWARE !!!</h1>
+        <h1 class="checkoutHeadder">THIS IS A TEST WEBSITE THAT IS CONNECTED TO A LIVE PAYMENT SYSTEM</h1>
+        <h1 class="checkoutHeadder">IT WILL CHARGE YOUR CREDIT CARD AND I WILL NOT ISSUE A REFUND</h1>
+        <%  if(userData.isLoggedIn) { %>
+            <div class="checkoutBtnDiv">                                
+                <form action="/checkout" method="POST">                                                        
+                    <script
+                        src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                        data-key="<%= strip_pk %>"
+                        data-amount="<%= cart.totalPrice * 100%>"
+                        data-name="Simple Shop!"
+                        data-description=""
+                        data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+                        data-locale=auto
+                        data-currency="usd">
+                    </script>        
+                </form>
+            </div>       
+            <div class="container_checkout"> 
+                <span class="cart__header_checkout">                        
+                        <h4 class="product__title_checkout"> Title </h4>
+                        <h4 class="product__qty_checkout"> Order Qty</h4>
+                        <h4 class="product__price_checkout"> Unit Price </h4>
+                </span>                                          
+                <ul class="list-group-checkout">
+                    <% for (var product of cart){  %>  
+                        <li class="list-group-item-checkout">                        
+                            <div class="cart__div_checkout"> 
+                                <span class="cart__details_checkout">
+                                    <h4 class="product__title_checkout"> <%= product.productDetails.title %> </h4>
+                                    <h4 class="product__qty_checkout"> <%= product.qty %> </h4>
+                                    <h4 class="product__price_checkout"> <%= product.productDetails.price %> </h4>
+                                </span>
+                            </div>                       
+                        </li>
+                    <% } %> 
+                </ul>            
+            </div>  
+            <div class="total__price">
+                <h2 class="total__product__price">Total Price : $<%= cart.totalPrice %></h2> 
+            </div>            
+        
+        <% } else{ %>
+            <h2>Login to Place Order</h2>
+        <% } %>   
+    </main>
+
+<%- include('../includes/end.ejs') %> 

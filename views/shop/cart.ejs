@@ -1,0 +1,80 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/css/cart.css">
+</head>
+<body>
+    <%- include('../includes/navigation.ejs') %> 
+
+    <main>
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+       <%  if(cart.length > 0) { %>
+        <h1>My Cart</h1>
+        <%  if(userData.isLoggedIn) { %>
+        <div class="checkoutBtnDiv">
+            <form action="/checkout" method="GET" id="getCheckout"> 
+                <button class="btn getCheckout" form="getCheckout" type="submit">Checkout</button>
+            </form> 
+        </div>
+        <% } else{ %>
+            <h2>Login to Place Order</h2>
+        <% } %>
+        <div class="container">
+            
+            <% if(cart.cartUpdated){ %>
+                    <h4 class="qtyError">Some items in your cart are no longer avalible and have been removed. We apologize for the inconvenicnce.</h2> 
+            <%  } %> 
+                                           
+            <ul class="list-group">
+                <% for (var product of cart){  %>  
+                    <li class="list-group-item">                        
+                        <div class="cart__div">                        
+                            <span class="cart__image">
+                                <img src= "<%= product.productDetails.image %>" alt=<%= product.productDetails.title %>>
+                            </span> 
+                            <span class="cart__header">
+                                <h3 class="product__title"> <%= product.productDetails.title %> </h3>
+                            </span>                       
+                            <span class="cart__content">
+                                <p class="product__price">Price : $<%= product.productDetails.price %></p>
+                                <form action="/cart-update" method="post" id="updateCart-<%= product._id %>">
+                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                    <input type="hidden" name="productId" value="<%= product._id %>">
+                                    <input type="hidden" name="productQty" value="<%= product.productDetails.qty %>">
+                                    <div class=cart__qty__div">
+                                        <p class="cart__qty">Qty:</p> 
+                                        <input type="number" class="cart__qty__input cart-qty" id="cart-qty" name="orderQty" value="<%= product.qty %>" min="0" max="<%= product.productDetails.qty %>">                            
+                                    </div>                                   
+                                </form>
+                            </span> 
+                            <span class="cart__actions">
+                                <a href="/products/<%= product._id %>" class="btn cart-action-button view">View</a>                                    
+                                    <button class="btn cart-action-button update" form="updateCart-<%= product._id %>" type="submit">Update</button>                               
+                                <form action="/cart-delete/<%= product._id %>" method="post" id="deleteCart-<%= product._id %>">                                  
+                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                    <button class="btn cart-action-button delete" method="post" form="deleteCart-<%= product._id %>" type="submit">Delete</button> 
+                                </form>                         
+                            </span>
+                        </div>
+                        <% if(product.productDetails.productUpdatedMsg){ %>
+                            <h2 class="qtyError"><%= product.productDetails.productUpdatedMsg %></h2> 
+                        <%  } %>
+                    </li>
+                <% } %> 
+            </ul>            
+        </div>  
+        <div class="total__price">
+            <h2 class="total__product__price">Total Price : $<%= cart.totalPrice %></h2> 
+        </div>
+        
+    <% } else{  %>
+        
+        <% if(cart.cartUpdated){ %>
+            <h4 class="qtyError">The products you selected are no longer avalible.  We apologize for the inconvenicnce.  Please check back later.</h2> 
+        <%  } else { %>                 
+            <h1>No items added yet.  Go ahead and add some!</h1>
+        <%  } %>
+
+        
+    <% } %>    
+    </main>
+
+<%- include('../includes/end.ejs') %> 

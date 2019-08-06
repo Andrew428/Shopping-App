@@ -1,0 +1,25 @@
+.colorSchema{  
+    color: #002A5C;
+  
+    color: #7AC142;
+  
+    color:#B2B7BB;
+  
+    color:#2D5980;
+  
+  }
+
+
+.login-form,
+.signup-form,
+.forgot-password-form,
+.reset-password-form {
+    width: 20rem;
+    max-width: 90%;
+    margin: auto;
+    display: block;
+}
+
+.forgot-password{
+  float:right;
+}

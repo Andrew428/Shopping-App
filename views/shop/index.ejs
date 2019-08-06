@@ -1,0 +1,37 @@
+<%- include('../includes/head.ejs') %> 
+<link rel="stylesheet" href="/css/product.css">
+
+</head>
+<body>
+    <%- include('../includes/navigation.ejs') %> 
+
+    <main>
+        <%  if(products.length > 0) { %>
+            <h1>Shop Products</h1>
+                <div class="grid">
+                    <% var count = 0;  %>
+                    <% for (var p = 0; p < products.length; p++){  %> 
+                        <%  if(!products[p].disabled && products[p].qty > 0) { %> 
+                            <% count++ %>
+                            <% if(count > 3){ break;}else{ var product = products[p] %>                                
+                                <article class="card product-item">
+                                    <%- include('../includes/product-card.ejs', {product: product}) %> 
+                                    <div class="card__actions">
+                                        <a href="/products/<%= product._id %>" class="btn">Details</a>
+                                        <%- include('../includes/add-to-cart.ejs', {product: product}) %> 
+                                    </div>
+                                </article>
+                            <% } %> 
+                        <% } %> 
+                    <% } %> 
+                </div>
+                <%- include('../includes/pagination.ejs', {pageDetails: pageDetails}) %>
+
+            
+        <% } else{  %>    
+            <h1>No Products yet</h1>
+        <% } %>
+    </main>
+
+
+<%- include('../includes/end.ejs') %> 

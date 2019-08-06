@@ -1,0 +1,25 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/css/product.css">
+</head>
+<body>
+    <%- include('../includes/navigation.ejs') %> 
+    <a href="/products" class="back-btn"> &#x2039; Back </a>
+    <main >
+            
+
+            <div class="grid">                   
+                    <article class="card product-detail-item">
+                        <%- include('../includes/product-card.ejs', {product: product}) %> 
+                        <div class="card__actions">                            
+                            <%- include('../includes/add-to-cart.ejs', {product: product}) %>
+                        </div>
+                    </article>
+                
+            </div>
+            
+        
+        
+    </main>
+
+
+<%- include('../includes/end.ejs') %> 

@@ -1,0 +1,31 @@
+<%- include('../includes/head.ejs') %> 
+<link rel="stylesheet" href="/css/product.css">
+
+</head>
+<body>
+    <%- include('../includes/navigation.ejs') %> 
+    <main>
+        <%  if(products.length > 0) { %>
+            <h1>All Products</h1>                                  
+                <div class="grid">
+                    <% for (let product of products){  %>  
+                        <%  if(!product.disabled && product.qty > 0) { %>
+                            <article class="card product-item">
+                                <%- include('../includes/product-card.ejs', {product: product}) %>
+                                <div class="card__actions">                                
+                                    <a href="/products/<%= product._id %>" class="btn">Details</a>
+                                    <%- include('../includes/add-to-cart.ejs', {product: product}) %>                                    
+                                </div>
+                            </article>
+                        <% } %>
+                    <% } %> 
+                </div>
+                <%- include('../includes/pagination.ejs', {pageDetails: pageDetails}) %>
+            
+        <% } else{  %>    
+            <h1>No Products yet</h1>
+        <% } %>
+    </main>
+
+
+<%- include('../includes/end.ejs') %> 

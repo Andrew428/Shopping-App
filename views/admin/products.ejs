@@ -1,0 +1,84 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet"
+      href="/css/product.css">
+
+</head>
+
+<body>
+    <%- include('../includes/navigation.ejs') %>
+
+    <main>
+        <%  if(products.length > 0) { %>
+        <h1>Admin Products</h1>
+        <div class="grid">
+            <% for (let product of products){  %>
+            <article class="card product-item">
+                <%- include('../includes/product-card.ejs', {product: product}) %>
+                <div class="card__actions">
+                    <a href="/admin/edit-product/<%= product._id %>"
+                       class="btn">Edit</a>
+                    <!-- <%  if(!product.promoted) { %>
+                    <form action="/admin/disable-product/<%= product._id %>"
+                          method="POST">
+                        <input type="hidden"
+                               name="_csrf"
+                               value="<%= csrfToken %>">
+                        <button class="btn unprometed"
+                                type="submit">Promote</button>
+                    </form>
+                    <% } else{ %>
+                    <form action="/admin/enable-product/<%= product._id %>"
+                          method="POST">
+                        <input type="hidden"
+                               name="_csrf"
+                               value="<%= csrfToken %>">
+                        <button class="btn prometed"
+                                type="submit">UnPromote</button>
+                    </form>
+                    <% } %> -->
+                    <%  if(!product.disabled) { %>
+                    <form action="/admin/disable-product/<%= product._id %>"
+                          method="POST">
+                        <input type="hidden"
+                               name="_csrf"
+                               value="<%= csrfToken %>">
+                        <button class="btn"
+                                type="submit">Disable</button>
+                    </form>
+                    <% } else{ %>
+                    <form action="/admin/enable-product/<%= product._id %>"
+                          method="POST">
+                        <input type="hidden"
+                               name="_csrf"
+                               value="<%= csrfToken %>">
+                        <button class="btn"
+                                type="submit">Enable</button>
+                    </form>
+                    <% } %>
+                    <input id="productIdToBeDeleted"
+                           type="hidden"
+                           name="<%= product._id %>"
+                           value="<%= product._id %>">
+                    <input id="productCSRFToBeDeleted"
+                           type="hidden"
+                           name="_csrf"
+                           value="<%= csrfToken %>">
+                    <button class="btn deleteButton"
+                            type="button"
+                            onclick="deleteProduct(this)"> Delete </button>
+                </div>
+
+            </article>
+            <% } %>
+        </div>
+
+
+        <% } else{  %>
+        <h1>No Products yet</h1>
+        <% } %>
+    </main>
+
+
+    <%- include('../includes/end.ejs') %>
+
+    <script src="/js/admin.js"></script>

@@ -1,0 +1,39 @@
+<%- include('../includes/head.ejs') %>
+</head>
+<body>
+    <%- include('../includes/navigation.ejs') %> 
+
+    <main>
+       <h1>Orders</h1>
+
+
+       <div class="container">                                
+        <ul class="list-group">           
+            <% for (var x=0; x < orders.length; x++){  %>   
+                <% var order = orders[x] %>
+                <a class="order__invoice" href="/orders/<%= order._id %>">
+                    <li class="list-group-item">                                                    
+                        <div>
+                            <span class="order__header">                                
+                                <h3 class="order__id"> Order Number: <%= order._id %> </h3>                                 
+                            </span> 
+                            <span class="order__icon"> 
+                                <em class="fa fa-file-pdf-o fa-3x"></em>
+                            </span>
+                        </div>
+                        
+                    </li>
+                </a>
+            <% } %> 
+        </ul> 
+        </div>         
+
+
+
+
+
+
+    </main>
+
+
+<%- include('../includes/end.ejs') %> 
